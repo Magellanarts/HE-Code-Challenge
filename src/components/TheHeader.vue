@@ -13,5 +13,9 @@ export default {
 <style lang="scss">
 h1 {
   text-align: center;
+  text-transform: uppercase;
+  font-size: 36px;
+  font-weight: 800;
+  color: #3a3737;
 }
 </style>
