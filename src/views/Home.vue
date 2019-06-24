@@ -11,22 +11,46 @@
       <form class="c-account-form">
         <div class="c-account-form__field">
           <label class="c-account-form__label c-account-form__label--positioned" for="name">Name<sup>*</sup></label>
-          <input class="c-account-form__text-input" type="text" name="name" id="name" />
+          <input
+            class="c-account-form__text-input"
+            type="text"
+            name="name"
+            id="name"
+            v-model="account.name"
+          />
         </div>
 
         <div class="c-account-form__field">
           <label class="c-account-form__label c-account-form__label--positioned" for="email">Email<sup>*</sup></label>
-          <input class="c-account-form__text-input" type="email" name="email" id="email" />
+          <input
+            class="c-account-form__text-input"
+            type="email"
+            name="email"
+            id="email"
+            v-model="account.email"
+          />
         </div>
 
         <div class="c-account-form__field">
           <label class="c-account-form__label c-account-form__label--positioned" for="birthday">Birthday<sup>*</sup></label>
-          <input class="c-account-form__text-input" type="date" name="birthday" id="birthday" />
+          <input
+            class="c-account-form__text-input"
+            type="date"
+            name="birthday"
+            id="birthday"
+            v-model="account.birthday"
+          />
         </div>
 
         <div class="c-account-form__field">
           <label class="c-account-form__label c-account-form__label--positioned" for="zipcode">Zipcode<sup>*</sup></label>
-          <input class="c-account-form__text-input" type="number" name="zipcode" id="zipcode" />
+          <input
+            class="c-account-form__text-input"
+            type="number"
+            name="zipcode"
+            id="zipcode"
+            v-model="account.zipcode"
+          />
         </div>
 
         <div class="c-account-form__field">
@@ -36,34 +60,71 @@
           </div>
 
           <label class="c-account-form__label c-account-form__label--positioned" for="password">Password<sup>*</sup></label>
-          <input class="c-account-form__text-input" ref="password" type="password" name="password" id="password" />
+          <input
+            class="c-account-form__text-input"
+            ref="password"
+            type="password"
+            name="password"
+            id="password"
+            v-model="account.password"
+          />
         </div>
 
         <div class="c-account-form__field">
           <label class="c-account-form__label c-account-form__label--positioned" for="confirm-password">Confirm Password<sup>*</sup></label>
-          <input class="c-account-form__text-input" type="password" name="confirm-password" id="confirm-password" />
+          <input
+            class="c-account-form__text-input"
+            type="password"
+            name="confirm-password"
+            id="confirm-password"
+            v-model="account.confirmPassword"
+          />
         </div>
 
         <div class="c-account-form__field">
           <label class="c-account-form__label" for="gender-identity">Gender Identity<sup>*</sup></label>
 
           <label class="c-account-form__field__secondary-label" for="male">
-            <input type="radio" id="male" name="gender-identity" value="Male">
+            <input
+              type="radio"
+              id="male"
+              name="gender-identity"
+              value="Male"
+              v-model="account.gender"
+            >
             Male
           </label>
 
           <label class="c-account-form__field__secondary-label" for="female">
-            <input type="radio" id="female" name="gender-identity" value="Female">
+            <input
+              type="radio"
+              id="female"
+              name="gender-identity"
+              value="Female"
+              v-model="account.gender"
+            >
             Female
           </label>
 
           <label class="c-account-form__field__secondary-label" for="non-binary">
-            <input type="radio" name="gender-identity" id="non-binary" value="Non-Binary">
+            <input
+              type="radio"
+              name="gender-identity"
+              id="non-binary"
+              value="Non-Binary"
+              v-model="account.gender"
+            >
             Non-Binary
           </label>
 
           <label class="c-account-form__field__secondary-label" for="other">
-            <input type="radio" name="gender-identity" id="other" value="Other">
+            <input
+              type="radio"
+              name="gender-identity"
+              id="other"
+              value="Other"
+              v-model="account.gender"
+            >
             Other
           </label>
         </div>
@@ -72,7 +133,12 @@
           <label class="c-account-form__label" for="newsletter">Subscribe to newsletter</label>
 
           <label class="c-account-form__field__secondary-label">
-            <input type="checkbox" name="newsletter" id="newsletter">
+            <input
+              type="checkbox"
+              name="newsletter"
+              id="newsletter"
+              v-model="account.newsletter"
+            >
             Yes
           </label>
         </div>
@@ -89,7 +155,7 @@
           />
 
           <div class="c-profile-pic-upload">
-            <img :src="photoURL" class="c-profile-pic-upload__image" />
+            <img :src="account.photo" class="c-profile-pic-upload__image" />
 
             <button type="button" class="c-profile-pic-upload__btn" @click="profilePicUploadClick">Browse</button>
           </div>
@@ -99,7 +165,10 @@
           <button type="submit" class="c-account-form__submit-btn">Create Account</button>
 
           <div>
-            <div class="c-account-form__reset-btn">Reset</div>
+            <div
+              class="c-account-form__reset-btn"
+              @click="resetForm"
+            >Reset</div>
           </div>
         </div>
       </form>
@@ -114,7 +183,17 @@ export default {
   name: 'home',
   data() {
     return {
-      photoURL: placeHolderPhoto,
+      account: {
+        name: '',
+        email: '',
+        birthday: '',
+        zipcode: '',
+        password: '',
+        confirmPassword: '',
+        gender: '',
+        newsletter: '',
+        photo: placeHolderPhoto,
+      },
     };
   },
   methods: {
@@ -145,10 +224,19 @@ export default {
         reader.onload = () => {
         // reader.result has image url
         // update photoURL to this new image
-          this.photoURL = reader.result;
+          this.account.photo = reader.result;
         };
         reader.readAsDataURL(upload.files[0]);
       }
+    },
+    resetForm() {
+      Object.keys(this.account).map((k) => {
+        if (k !== 'photo') {
+          this.account[k] = '';
+        } else {
+          this.account.photo = placeHolderPhoto;
+        }
+      });
     },
   },
 };
@@ -245,6 +333,7 @@ h2 {
     border: solid 1px #949494;
     height: 36px;
     width: 100%;
+    font-family: 'Nunito';
     box-sizing: border-box;
     padding-left: 20px;
     font-size: 14px;
