@@ -3,6 +3,7 @@
     <section class="l-content-container">
       <header class="c-content-header">
         <h2>Create an Account</h2>
+        <img class="c-content-header__border-squiggle" src="@/assets/images/squiggle.svg" alt="Decorative squiggle line" />
 
         <div class="c-content-header__note">* Indicates Required Field</div>
       </header>
@@ -78,8 +79,20 @@
 
         <div class="c-account-form__field">
           <label class="c-account-form__label" for="profile-pic">Upload Your Profile Pic<sup>*</sup></label>
+          <input
+            class="u-visually-hidden"
+            ref="photo"
+            type="file"
+            name="profile-pic"
+            id="profile-pic"
+            @change="handlePhotoUpload"
+          />
 
-          <input type="file" name="profile-pic" id="profile-pic"/>
+          <div class="c-profile-pic-upload">
+            <img :src="photoURL" class="c-profile-pic-upload__image" />
+
+            <button type="button" class="c-profile-pic-upload__btn" @click="profilePicUploadClick">Browse</button>
+          </div>
         </div>
 
         <div class="c-account-form__footer">
@@ -95,14 +108,46 @@
 </template>
 
 <script>
+import placeHolderPhoto from '@/assets/images/profile-pic.svg';
+
 export default {
   name: 'home',
+  data() {
+    return {
+      photoURL: placeHolderPhoto,
+    };
+  },
   methods: {
+    // toggle password field between password and plain text
     togglePasswordVisibility() {
+      // if the text input is already of type 'password',
+      // change to text. Otherwise, change type to 'password'
       if (this.$refs.password.type === 'password') {
         this.$refs.password.type = 'text';
       } else {
         this.$refs.password.type = 'password';
+      }
+    },
+    // Browse button was clicked to upload a photo.
+    // Fire a click event on the hidden file input field
+    profilePicUploadClick() {
+      this.$refs.photo.click();
+    },
+    // Fired after an image is uploaded
+    handlePhotoUpload(event) {
+      const upload = event.target;
+      const reader = new FileReader();
+
+      // basic checking of the file type
+      // only allowing jpg or png
+      // this should be checked on server too
+      if (upload.files[0].type === 'image/jpeg' || upload.files[0].type === 'image/jpg' || upload.files[0].type === 'image/png') {
+        reader.onload = () => {
+        // reader.result has image url
+        // update photoURL to this new image
+          this.photoURL = reader.result;
+        };
+        reader.readAsDataURL(upload.files[0]);
       }
     },
   },
@@ -115,7 +160,7 @@ h2 {
   font: 20px/1.15 'Nunito';
   letter-spacing: 1.43px;
   color: #3a3737;
-  margin-bottom: 9px;
+  margin-bottom: 12px;
 }
 
 .l-content-container {
@@ -130,7 +175,13 @@ h2 {
 
 .c-content-header {
   text-align: center;
-  margin-bottom: 20px;
+  margin-bottom: 27px;
+
+  &__border-squiggle {
+    width: 64px;
+    display: inline-block;
+    margin-bottom: 5px;
+  }
 
   &__note {
     font: 11px/1.2 'Nunito';
@@ -158,6 +209,11 @@ h2 {
         color: #3a3737;
       }
     }
+
+    &__secondary-label {
+      padding-left: 16px;
+      font-size: 12px;
+    }
   }
 
   &__label {
@@ -165,6 +221,7 @@ h2 {
     font-size: 12px;
     font-weight: 800;
     display: block;
+    margin-bottom: 10px;
 
     sup {
       font-size: 19px;
@@ -249,6 +306,41 @@ h2 {
 
     &:hover {
       color: #ec5959;
+    }
+  }
+}
+
+.c-profile-pic-upload {
+  display: grid;
+  grid-template-columns: 120px auto;
+  grid-column-gap: 30px;
+  align-items: center;
+
+  &__image {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+  }
+
+  &__btn {
+    border: none;
+    border-radius: 3px;
+    width: 90px;
+    height: 30px;
+    border-radius: 3px;
+    background-color: #949494;
+    font-size: 12px;
+    letter-spacing: 1px;
+    line-height: 30px;
+    text-align: center;
+    text-transform: uppercase;
+    color: #fff;
+    cursor: pointer;
+    outline: none;
+    transition: .125s ease-in;
+
+    &:hover {
+      background-image: linear-gradient(to bottom, #6c6868, #3a3737);
     }
   }
 }
