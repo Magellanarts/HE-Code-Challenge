@@ -1,5 +1,5 @@
 <template>
-  <header>
+  <header class="c-page-header">
     <h1>Code Challenge</h1>
   </header>
 </template>
@@ -11,11 +11,11 @@ export default {
 </script>
 
 <style lang="scss">
-h1 {
-  text-align: center;
-  text-transform: uppercase;
-  font-size: 36px;
-  font-weight: 800;
-  color: #3a3737;
+.c-page-header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 97px;
+  border-bottom: solid 3px #3a3737;
 }
 </style>

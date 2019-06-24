@@ -20,7 +20,10 @@ export default {
 <style lang="scss" scoped>
 .l-main-content {
   padding: 70px 0;
+  box-sizing: border-box;
+  min-height: 1242px;
   background: url('./assets/images/bg--desktop.jpg');
   background-position: center top;
+  background-size: cover;
 }
 </style>

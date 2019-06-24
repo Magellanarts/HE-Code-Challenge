@@ -55,6 +55,23 @@ button {
   -webkit-appearance: none !important;
 }
 
+
+h1 {
+  text-align: center;
+  text-transform: uppercase;
+  font-size: 36px;
+  font-weight: 800;
+  color: #3a3737;
+}
+
+h2 {
+  text-transform: uppercase;
+  font: 20px/1.15 'Nunito';
+  letter-spacing: 1.43px;
+  color: #3a3737;
+  margin-bottom: 12px;
+}
+
 .u-visually-hidden {
 	position: absolute; 
   overflow: hidden; 

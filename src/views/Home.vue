@@ -3,63 +3,93 @@
     <section class="l-content-container">
       <header class="c-content-header">
         <h2>Create an Account</h2>
-        <img class="c-content-header__border-squiggle" src="@/assets/images/squiggle.svg" alt="Decorative squiggle line" />
+        <img
+          class="c-content-header__border-squiggle"
+          src="@/assets/images/squiggle.svg"
+          alt="Decorative squiggle line" />
 
         <div class="c-content-header__note">* Indicates Required Field</div>
       </header>
 
-      <form class="c-account-form">
+      <form
+        @submit.prevent="submitForm"
+        class="c-account-form"
+      >
         <div class="c-account-form__field">
-          <label class="c-account-form__label c-account-form__label--positioned" for="name">Name<sup>*</sup></label>
+          <label
+            class="c-account-form__label c-account-form__label--positioned"
+            for="name"
+          >Name<sup>*</sup></label>
           <input
             class="c-account-form__text-input"
             type="text"
             name="name"
             id="name"
             v-model="account.name"
+            required
           />
         </div>
 
         <div class="c-account-form__field">
-          <label class="c-account-form__label c-account-form__label--positioned" for="email">Email<sup>*</sup></label>
+          <label
+            class="c-account-form__label c-account-form__label--positioned"
+            for="email"
+          >Email<sup>*</sup></label>
           <input
             class="c-account-form__text-input"
             type="email"
             name="email"
             id="email"
             v-model="account.email"
+            required
           />
         </div>
 
         <div class="c-account-form__field">
-          <label class="c-account-form__label c-account-form__label--positioned" for="birthday">Birthday<sup>*</sup></label>
+          <label
+            class="c-account-form__label c-account-form__label--positioned"
+            for="birthday"
+          >Birthday<sup>*</sup></label>
           <input
             class="c-account-form__text-input"
             type="date"
             name="birthday"
             id="birthday"
             v-model="account.birthday"
+            required
           />
         </div>
 
         <div class="c-account-form__field">
-          <label class="c-account-form__label c-account-form__label--positioned" for="zipcode">Zipcode<sup>*</sup></label>
+          <label
+            class="c-account-form__label c-account-form__label--positioned"
+            for="zipcode"
+          >Zipcode<sup>*</sup></label>
           <input
             class="c-account-form__text-input"
             type="number"
             name="zipcode"
             id="zipcode"
             v-model="account.zipcode"
+            required
           />
         </div>
 
         <div class="c-account-form__field">
           <div class="c-account-form__field__meta">
-            <div class="c-account-form__field__action" @click="togglePasswordVisibility">SHOW PASSWORD</div>
-            <div class="c-account-form__field__note">Must contain one uppercase letter, one number, & one special character.</div>
+            <div
+              class="c-account-form__field__action"
+              @click="togglePasswordVisibility"
+            >SHOW PASSWORD</div>
+            <div class="c-account-form__field__note">
+              Must contain one uppercase letter, one number, & one special character.
+            </div>
           </div>
 
-          <label class="c-account-form__label c-account-form__label--positioned" for="password">Password<sup>*</sup></label>
+          <label
+            class="c-account-form__label c-account-form__label--positioned"
+            for="password"
+          >Password<sup>*</sup></label>
           <input
             class="c-account-form__text-input"
             ref="password"
@@ -67,11 +97,15 @@
             name="password"
             id="password"
             v-model="account.password"
+            required
           />
         </div>
 
         <div class="c-account-form__field">
-          <label class="c-account-form__label c-account-form__label--positioned" for="confirm-password">Confirm Password<sup>*</sup></label>
+          <label
+            class="c-account-form__label c-account-form__label--positioned"
+            for="confirm-password"
+          >Confirm Password<sup>*</sup></label>
           <input
             class="c-account-form__text-input"
             type="password"
@@ -82,7 +116,10 @@
         </div>
 
         <div class="c-account-form__field">
-          <label class="c-account-form__label" for="gender-identity">Gender Identity<sup>*</sup></label>
+          <label
+            class="c-account-form__label"
+            for="gender-identity"
+          >Gender Identity<sup>*</sup></label>
 
           <label class="c-account-form__field__secondary-label" for="male">
             <input
@@ -91,6 +128,7 @@
               name="gender-identity"
               value="Male"
               v-model="account.gender"
+              required
             >
             Male
           </label>
@@ -102,6 +140,7 @@
               name="gender-identity"
               value="Female"
               v-model="account.gender"
+              required
             >
             Female
           </label>
@@ -113,6 +152,7 @@
               id="non-binary"
               value="Non-Binary"
               v-model="account.gender"
+              required
             >
             Non-Binary
           </label>
@@ -124,6 +164,7 @@
               id="other"
               value="Other"
               v-model="account.gender"
+              required
             >
             Other
           </label>
@@ -132,7 +173,9 @@
         <div class="c-account-form__field">
           <label class="c-account-form__label" for="newsletter">Subscribe to newsletter</label>
 
-          <label class="c-account-form__field__secondary-label">
+          <label
+            for="newsletter"
+            class="c-account-form__field__secondary-label">
             <input
               type="checkbox"
               name="newsletter"
@@ -144,7 +187,10 @@
         </div>
 
         <div class="c-account-form__field">
-          <label class="c-account-form__label" for="profile-pic">Upload Your Profile Pic<sup>*</sup></label>
+          <label
+            class="c-account-form__label"
+            for="profile-pic"
+          >Upload Your Profile Pic<sup>*</sup></label>
           <input
             class="u-visually-hidden"
             ref="photo"
@@ -152,12 +198,21 @@
             name="profile-pic"
             id="profile-pic"
             @change="handlePhotoUpload"
+            required
           />
 
           <div class="c-profile-pic-upload">
-            <img :src="account.photo" class="c-profile-pic-upload__image" />
+            <img
+              :src="account.photo"
+              alt="Account Photo"
+              class="c-profile-pic-upload__image"
+            />
 
-            <button type="button" class="c-profile-pic-upload__btn" @click="profilePicUploadClick">Browse</button>
+            <button
+              type="button"
+              class="c-profile-pic-upload__btn"
+              @click="profilePicUploadClick"
+            >Browse</button>
           </div>
         </div>
 
@@ -177,12 +232,14 @@
 </template>
 
 <script>
+import axios from 'axios';
 import placeHolderPhoto from '@/assets/images/profile-pic.svg';
 
 export default {
   name: 'home',
   data() {
     return {
+      accounts: [],
       account: {
         name: '',
         email: '',
@@ -229,28 +286,37 @@ export default {
         reader.readAsDataURL(upload.files[0]);
       }
     },
+    // reset all fields in form
+    // this will set all properties of the account object to ''
     resetForm() {
-      Object.keys(this.account).map((k) => {
-        if (k !== 'photo') {
-          this.account[k] = '';
+      // loop through the account object
+      // eslint-disable-next-line array-callback-return
+      Object.keys(this.account).map((key) => {
+        // check if the key is photo,
+        // if so, we need to set it to the placeholder image instead of a blank string
+        if (key !== 'photo') {
+          this.account[key] = '';
         } else {
           this.account.photo = placeHolderPhoto;
         }
       });
     },
+    submitForm() {
+
+    },
+  },
+  mounted() {
+    // load in other accounts
+    axios.get('https://api.jsonbin.io/b/5c547bb0a3fb18257acc2a7c/3')
+      .then((response) => {
+        // store the response in accounts array
+        this.accounts = response.data;
+      });
   },
 };
 </script>
 
 <style lang="scss" scoped>
-h2 {
-  text-transform: uppercase;
-  font: 20px/1.15 'Nunito';
-  letter-spacing: 1.43px;
-  color: #3a3737;
-  margin-bottom: 12px;
-}
-
 .l-content-container {
   background: #fff;
   max-width: 559px;
