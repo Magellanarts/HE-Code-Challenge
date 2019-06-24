@@ -1,6 +1,8 @@
 # HE-Code-Challenge
 HigherEducation.com Code Challenge
 
+[View Demo](https://quizzical-lumiere-4c0a12.netlify.com/)
+
 
 # Vue Instructions
 
