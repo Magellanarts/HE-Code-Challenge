@@ -16,11 +16,20 @@
         class="c-account-form"
       >
         <div class="c-account-form__field">
+          <div class="c-account-form__field__meta">
+            <div
+              class="c-account-form__field__note"
+              :class="{error: errors.name.error}"
+              v-if="errors.name.error"
+            >
+              Required Field
+            </div>
+          </div>
+
           <label
             class="c-account-form__label c-account-form__label--positioned"
             :class="{error: errors.name.error}"
             for="name"
-            @focus="errors.name.error = true"
           >Name<sup>*</sup></label>
           <input
             class="c-account-form__text-input"
@@ -29,12 +38,37 @@
             name="name"
             id="name"
             v-model="account.name"
-            @blur="handleInputBlur('name')"
             required
           />
         </div>
 
         <div class="c-account-form__field">
+          <div class="c-account-form__field__meta">
+            <div
+              class="c-account-form__field__note"
+              :class="{error: errors.email.error}"
+              v-if="errors.email.error === true"
+            >
+              Required Field
+            </div>
+
+            <div
+              class="c-account-form__field__note"
+              :class="{error: errors.email.error}"
+              v-if="errors.email.error === 'invalid'"
+            >
+              Invalid Email
+            </div>
+
+            <div
+              class="c-account-form__field__note"
+              :class="{error: errors.email.error}"
+              v-if="errors.email.error === 'exists'"
+            >
+              This email already exists
+            </div>
+          </div>
+
           <label
             class="c-account-form__label c-account-form__label--positioned"
             :class="{error: errors.email.error}"
@@ -47,12 +81,29 @@
             name="email"
             id="email"
             v-model="account.email"
-            @blur="handleInputBlur('email')"
             required
           />
         </div>
 
         <div class="c-account-form__field">
+          <div class="c-account-form__field__meta">
+            <div
+              class="c-account-form__field__note"
+              :class="{error: errors.birthday.error}"
+              v-if="errors.birthday.error === true"
+            >
+              Required Field
+            </div>
+
+            <div
+              class="c-account-form__field__note"
+              :class="{error: errors.birthday.error}"
+              v-if="errors.birthday.error === 'underage'"
+            >
+              Must be 18 years old
+            </div>
+          </div>
+
           <label
             class="c-account-form__label c-account-form__label--positioned"
             :class="{error: errors.birthday.error}"
@@ -65,12 +116,29 @@
             name="birthday"
             id="birthday"
             v-model="account.birthday"
-            @blur="handleInputBlur('birthday')"
             required
           />
         </div>
 
         <div class="c-account-form__field">
+          <div class="c-account-form__field__meta">
+            <div
+              class="c-account-form__field__note"
+              :class="{error: errors.zipcode.error}"
+              v-if="errors.zipcode.error === true"
+            >
+              Required Field
+            </div>
+
+            <div
+              class="c-account-form__field__note"
+              :class="{error: errors.zipcode.error}"
+              v-if="errors.zipcode.error === 'invalid'"
+            >
+              Zipcode doesn't match requirements
+            </div>
+          </div>
+
           <label
             class="c-account-form__label c-account-form__label--positioned"
             :class="{error: errors.zipcode.error}"
@@ -83,7 +151,6 @@
             name="zipcode"
             id="zipcode"
             v-model="account.zipcode"
-            @blur="handleInputBlur('zipcode')"
             required
           />
         </div>
@@ -116,13 +183,30 @@
               name="password"
               id="password"
               v-model="account.password"
-              @blur="handleInputBlur('password')"
               required
             />
           </div>
         </div>
 
         <div class="c-account-form__field c-account-form__field--sm-margin">
+          <div class="c-account-form__field__meta">
+            <div
+              class="c-account-form__field__note"
+              :class="{error: errors.confirmPassword.error}"
+              v-if="errors.confirmPassword.error === true"
+            >
+              Required Field
+            </div>
+
+            <div
+              class="c-account-form__field__note"
+              :class="{error: errors.confirmPassword.error}"
+              v-if="errors.confirmPassword.error === 'mismatch'"
+            >
+              Passwords must match
+            </div>
+          </div>
+
           <label
             class="c-account-form__label c-account-form__label--positioned"
             :class="{error: errors.confirmPassword.error}"
@@ -136,14 +220,25 @@
             name="confirm-password"
             id="confirm-password"
             v-model="account.confirmPassword"
-            @blur="handleInputBlur('confirmPassword')"
+
             required
           />
         </div>
 
         <div class="c-account-form__field c-account-form__field--sm-margin">
+          <div class="c-account-form__field__meta">
+            <div
+              class="c-account-form__field__note"
+              :class="{error: errors.gender.error}"
+              v-if="errors.gender.error === true"
+            >
+              Required Field
+            </div>
+          </div>
+
           <label
             class="c-account-form__label"
+             :class="{error: errors.gender.error}"
             for="gender-identity"
           >Gender Identity<sup>*</sup></label>
 
@@ -213,8 +308,19 @@
         </div>
 
         <div class="c-account-form__field">
+          <div class="c-account-form__field__meta">
+            <div
+              class="c-account-form__field__note"
+              :class="{error: errors.photo.error}"
+              v-if="errors.photo.error === true"
+            >
+              Required Field
+            </div>
+          </div>
+
           <label
             class="c-account-form__label"
+            :class="{error: errors.photo.error}"
             for="profile-pic"
           >Upload Your Profile Pic<sup>*</sup></label>
           <input
@@ -280,6 +386,7 @@ export default {
         newsletter: '',
         photo: placeHolderPhoto,
       },
+      photoUploaded: false,
       invalidSubmission: false,
       errors: {
         name: {
@@ -333,11 +440,6 @@ export default {
         this.$refs.confirmPassword.type = 'password';
       }
     },
-    handleInputBlur(field) {
-      if (this.account[field] !== '') {
-        this.errors[field].error = false;
-      }
-    },
     // Browse button was clicked to upload a photo.
     // Fire a click event on the hidden file input field
     profilePicUploadClick() {
@@ -356,6 +458,8 @@ export default {
         // reader.result has image url
         // update photoURL to this new image
           this.account.photo = reader.result;
+
+          this.photoUploaded = true;
         };
         reader.readAsDataURL(upload.files[0]);
       }
@@ -393,37 +497,69 @@ export default {
         return null;
       });
 
+      // if there is already a birthday error, don't need these checks
+      if (!this.errors.birthday.error) {
       // check to see if age is under 18.
       // set the error object to true if under 18
-      if (this.isUnderEighteen(this.account.birthday)) {
-        this.errors.birthday.error = true;
-        this.invalidSubmission = true;
-      }
-
-      // check to see if the entered zipcode matches any in the valid zipcodes array
-      // set error object to true if not found
-      if (this.validZipCodes.indexOf(parseInt(this.account.zipcode, 10)) < 0) {
-        this.errors.zipcode.error = true;
-        this.invalidSubmission = true;
-      }
-
-      // first check to make sure email is valid
-      if (!this.validateEmail(this.account.email)) {
-        this.errors.email.error = true;
-        this.invalidSubmission = true;
-      }
-      // next, check to see if it is an email that already exists
-      this.accounts.forEach((account) => {
-        if (account.email === this.account.email) {
-          this.errors.email.error = true;
+        if (this.isUnderEighteen()) {
+          this.errors.birthday.error = 'underage';
           this.invalidSubmission = true;
         }
-      });
+      }
+
+      // if there is already a zipcode error, don't need these checks
+      if (!this.errors.zipcode.error) {
+      // check to see if the entered zipcode matches any in the valid zipcodes array
+      // set error object to true if not found
+        if (this.validZipCodes.indexOf(parseInt(this.account.zipcode, 10)) < 0) {
+          this.errors.zipcode.error = 'invalid';
+          this.invalidSubmission = true;
+        }
+      }
+
+      // if there is already an email error, don't need these checks
+      if (!this.errors.email.error) {
+        // first check to make sure email is valid
+        if (!this.validateEmail()) {
+          this.errors.email.error = 'invalid';
+          this.invalidSubmission = true;
+        } else {
+        // next, check to see if it is an email that already exists
+          this.accounts.forEach((account) => {
+            if (account.email === this.account.email) {
+              this.errors.email.error = 'exists';
+              this.invalidSubmission = true;
+            }
+          });
+        }
+      }
+
+      // if there is already a password error, don't need these checks
+      if (!this.errors.password.error) {
+        if (!this.validatePassword()) {
+          this.errors.password.error = true;
+          this.invalidSubmission = true;
+        }
+      }
+
+      // if there is already a confirmPassword error, don't need these checks
+      if (!this.errors.confirmPassword.error) {
+        if (this.account.confirmPassword !== this.account.password) {
+          this.errors.confirmPassword.error = 'mismatch';
+          this.invalidSubmission = true;
+        }
+      }
+
+      // check to see if image has been uploaded
+      if (this.photoUploaded === false) {
+        this.errors.photo.error = true;
+        this.invalidSubmission = true;
+      }
     },
     // Form Validation Functions
-    isUnderEighteen(birthday) {
+    isUnderEighteen() {
       const today = new Date();
-      const birthDate = new Date(birthday);
+      const birthDate = new Date(this.account.birthday);
       let age = today.getFullYear() - birthDate.getFullYear();
       const m = today.getMonth() - birthDate.getMonth();
       if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
@@ -431,10 +567,13 @@ export default {
       }
       return age < 18;
     },
-    validateEmail(email) {
+    validateEmail() {
       // eslint-disable-next-line no-useless-escape
       const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-      return re.test(String(email).toLowerCase());
+      return re.test(String(this.account.email).toLowerCase());
+    },
+    validatePassword() {
+      return /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/.test(this.account.password);
     },
   },
   mounted() {
