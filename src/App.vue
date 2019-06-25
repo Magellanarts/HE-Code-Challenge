@@ -17,7 +17,7 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
 .l-main-content {
   padding: 70px 0;
   box-sizing: border-box;
