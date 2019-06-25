@@ -805,6 +805,8 @@ export default {
   }
 
   &__btn {
+    -ms-grid-row-align: center;
+    align-self: center;
     border: none;
     border-radius: 3px;
     width: 90px;
