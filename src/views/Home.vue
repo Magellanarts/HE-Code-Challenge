@@ -8,7 +8,7 @@
           src="@/assets/images/squiggle.svg"
           alt="Decorative squiggle line" />
 
-        <div class="c-content-header__note">* Indicates Required Field</div>
+        <div class="c-content-header__note"><sup>*</sup>Indicates Required Field</div>
       </header>
 
       <form
@@ -75,7 +75,7 @@
           />
         </div>
 
-        <div class="c-account-form__field">
+        <div class="c-account-form__field c-account-form__field--password">
           <div class="c-account-form__field__meta">
             <div
               class="c-account-form__field__action"
@@ -86,22 +86,24 @@
             </div>
           </div>
 
-          <label
-            class="c-account-form__label c-account-form__label--positioned"
-            for="password"
-          >Password<sup>*</sup></label>
-          <input
-            class="c-account-form__text-input"
-            ref="password"
-            type="password"
-            name="password"
-            id="password"
-            v-model="account.password"
-            required
-          />
+          <div class="c-account-form__field-container">
+            <label
+              class="c-account-form__label c-account-form__label--positioned"
+              for="password"
+            >Password<sup>*</sup></label>
+            <input
+              class="c-account-form__text-input"
+              ref="password"
+              type="password"
+              name="password"
+              id="password"
+              v-model="account.password"
+              required
+            />
+          </div>
         </div>
 
-        <div class="c-account-form__field">
+        <div class="c-account-form__field c-account-form__field--sm-margin">
           <label
             class="c-account-form__label c-account-form__label--positioned"
             for="confirm-password"
@@ -115,7 +117,7 @@
           />
         </div>
 
-        <div class="c-account-form__field">
+        <div class="c-account-form__field c-account-form__field--sm-margin">
           <label
             class="c-account-form__label"
             for="gender-identity"
@@ -170,7 +172,7 @@
           </label>
         </div>
 
-        <div class="c-account-form__field">
+        <div class="c-account-form__field c-account-form__field--sm-margin">
           <label class="c-account-form__label" for="newsletter">Subscribe to newsletter</label>
 
           <label
@@ -324,32 +326,44 @@ export default {
   margin: 0 auto;
   box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.25);
   box-sizing: border-box;
-  padding: 43px 76px 32px 77px;
+  padding: 43px 25px 32px;
+
+  @media screen and (min-width: 760px) {
+    padding: 43px 76px 32px 77px;
+  }
 }
 
 .c-content-header {
   text-align: center;
-  margin-bottom: 27px;
+  margin-bottom: 32px;
 
   &__border-squiggle {
     width: 64px;
     display: inline-block;
-    margin-bottom: 5px;
+    margin-bottom: 2px;
   }
 
   &__note {
     font: 11px/1.2 'Nunito';
+
+    sup {
+      font-size: 21px;
+      line-height: 11px;
+      font-weight: 400;
+      position: relative;
+      top: 5px;
+    }
   }
 }
 
 .c-account-form {
   &__field {
-    margin-bottom: 33px;
+    margin-bottom: 35px;
     position: relative;
 
     &__meta {
       position: absolute;
-      top: -20px;
+      top: -16px;
       right: 0;
       text-align: right;
       font-size: 9px;
@@ -358,6 +372,7 @@ export default {
     &__action {
       cursor: pointer;
       text-transform: uppercase;
+      margin-bottom: 2px;
 
       &:hover {
         color: #3a3737;
@@ -368,6 +383,18 @@ export default {
       padding-left: 16px;
       font-size: 12px;
     }
+
+    &--password {
+      padding-top: 8px;
+    }
+
+    &--sm-margin {
+      margin-bottom: 29px;
+    }
+  }
+
+  &__field-container {
+    position: relative;
   }
 
   &__label {
@@ -388,7 +415,7 @@ export default {
       position: absolute;
       padding: 0 5px;
       top: -6px;
-      left: 5px;
+      left: 6px;
       background: #fff;
     }
   }
@@ -424,6 +451,7 @@ export default {
 
   &__footer {
     text-align: center;
+    padding-top: 4px;
   }
 
   &__submit-btn {
@@ -470,6 +498,7 @@ export default {
   grid-template-columns: 120px auto;
   grid-column-gap: 30px;
   align-items: center;
+  padding: 17px 0 0 17px;
 
   &__image {
     width: 120px;
