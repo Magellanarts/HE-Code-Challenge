@@ -18,14 +18,18 @@
         <div class="c-account-form__field">
           <label
             class="c-account-form__label c-account-form__label--positioned"
+            :class="{error: errors.name.error}"
             for="name"
+            @focus="errors.name.error = true"
           >Name<sup>*</sup></label>
           <input
             class="c-account-form__text-input"
+            :class="{error: errors.name.error}"
             type="text"
             name="name"
             id="name"
             v-model="account.name"
+            @blur="handleInputBlur('name')"
             required
           />
         </div>
@@ -33,14 +37,17 @@
         <div class="c-account-form__field">
           <label
             class="c-account-form__label c-account-form__label--positioned"
+            :class="{error: errors.email.error}"
             for="email"
           >Email<sup>*</sup></label>
           <input
             class="c-account-form__text-input"
+            :class="{error: errors.email.error}"
             type="email"
             name="email"
             id="email"
             v-model="account.email"
+            @blur="handleInputBlur('email')"
             required
           />
         </div>
@@ -48,14 +55,17 @@
         <div class="c-account-form__field">
           <label
             class="c-account-form__label c-account-form__label--positioned"
+            :class="{error: errors.birthday.error}"
             for="birthday"
           >Birthday<sup>*</sup></label>
           <input
             class="c-account-form__text-input"
+            :class="{error: errors.birthday.error}"
             type="date"
             name="birthday"
             id="birthday"
             v-model="account.birthday"
+            @blur="handleInputBlur('birthday')"
             required
           />
         </div>
@@ -63,14 +73,17 @@
         <div class="c-account-form__field">
           <label
             class="c-account-form__label c-account-form__label--positioned"
+            :class="{error: errors.zipcode.error}"
             for="zipcode"
           >Zipcode<sup>*</sup></label>
           <input
             class="c-account-form__text-input"
+            :class="{error: errors.zipcode.error}"
             type="number"
             name="zipcode"
             id="zipcode"
             v-model="account.zipcode"
+            @blur="handleInputBlur('zipcode')"
             required
           />
         </div>
@@ -81,7 +94,10 @@
               class="c-account-form__field__action"
               @click="togglePasswordVisibility"
             >SHOW PASSWORD</div>
-            <div class="c-account-form__field__note">
+            <div
+              class="c-account-form__field__note"
+              :class="{error: errors.password.error}"
+            >
               Must contain one uppercase letter, one number, & one special character.
             </div>
           </div>
@@ -89,15 +105,18 @@
           <div class="c-account-form__field-container">
             <label
               class="c-account-form__label c-account-form__label--positioned"
+              :class="{error: errors.password.error}"
               for="password"
             >Password<sup>*</sup></label>
             <input
               class="c-account-form__text-input"
+              :class="{error: errors.password.error}"
               ref="password"
               type="password"
               name="password"
               id="password"
               v-model="account.password"
+              @blur="handleInputBlur('password')"
               required
             />
           </div>
@@ -106,14 +125,19 @@
         <div class="c-account-form__field c-account-form__field--sm-margin">
           <label
             class="c-account-form__label c-account-form__label--positioned"
+            :class="{error: errors.confirmPassword.error}"
             for="confirm-password"
           >Confirm Password<sup>*</sup></label>
           <input
             class="c-account-form__text-input"
+            :class="{error: errors.confirmPassword.error}"
+            ref="confirmPassword"
             type="password"
             name="confirm-password"
             id="confirm-password"
             v-model="account.confirmPassword"
+            @blur="handleInputBlur('confirmPassword')"
+            required
           />
         </div>
 
@@ -241,6 +265,9 @@ export default {
   name: 'home',
   data() {
     return {
+      validZipCodes: [
+        57001, 57002, 57003, 57004, 57005, 57006, 57007, 57010, 57012, 57013, 57014, 57015,
+      ],
       accounts: [],
       account: {
         name: '',
@@ -253,6 +280,44 @@ export default {
         newsletter: '',
         photo: placeHolderPhoto,
       },
+      invalidSubmission: false,
+      errors: {
+        name: {
+          required: true,
+          error: false,
+        },
+        email: {
+          required: true,
+          error: false,
+        },
+        birthday: {
+          required: true,
+          error: false,
+        },
+        zipcode: {
+          required: true,
+          error: false,
+        },
+        password: {
+          required: true,
+          error: false,
+        },
+        confirmPassword: {
+          required: true,
+          error: false,
+        },
+        gender: {
+          required: true,
+          error: false,
+        },
+        newsletter: {
+          error: false,
+        },
+        photo: {
+          required: true,
+          error: false,
+        },
+      },
     };
   },
   methods: {
@@ -262,8 +327,15 @@ export default {
       // change to text. Otherwise, change type to 'password'
       if (this.$refs.password.type === 'password') {
         this.$refs.password.type = 'text';
+        this.$refs.confirmPassword.type = 'text';
       } else {
         this.$refs.password.type = 'password';
+        this.$refs.confirmPassword.type = 'password';
+      }
+    },
+    handleInputBlur(field) {
+      if (this.account[field] !== '') {
+        this.errors[field].error = false;
       }
     },
     // Browse button was clicked to upload a photo.
@@ -304,7 +376,65 @@ export default {
       });
     },
     submitForm() {
+      // go through each field in the account object
+      Object.keys(this.account).map((key) => {
+        // check to see if this field is required
+        if (this.errors[key].required) {
+          // check to see if the field is null or and empty string
+          if (this.account[key] === null || this.account[key] === '') {
+            // if so, set it's error object to true
+            this.errors[key].error = true;
+            this.invalidSubmission = true;
+          } else {
+            // else set it's error object to false
+            this.errors[key].error = false;
+          }
+        }
+        return null;
+      });
 
+      // check to see if age is under 18.
+      // set the error object to true if under 18
+      if (this.isUnderEighteen(this.account.birthday)) {
+        this.errors.birthday.error = true;
+        this.invalidSubmission = true;
+      }
+
+      // check to see if the entered zipcode matches any in the valid zipcodes array
+      // set error object to true if not found
+      if (this.validZipCodes.indexOf(parseInt(this.account.zipcode, 10)) < 0) {
+        this.errors.zipcode.error = true;
+        this.invalidSubmission = true;
+      }
+
+      // first check to make sure email is valid
+      if (!this.validateEmail(this.account.email)) {
+        this.errors.email.error = true;
+        this.invalidSubmission = true;
+      }
+      // next, check to see if it is an email that already exists
+      this.accounts.forEach((account) => {
+        if (account.email === this.account.email) {
+          this.errors.email.error = true;
+          this.invalidSubmission = true;
+        }
+      });
+    },
+    // Form Validation Functions
+    isUnderEighteen(birthday) {
+      const today = new Date();
+      const birthDate = new Date(birthday);
+      let age = today.getFullYear() - birthDate.getFullYear();
+      const m = today.getMonth() - birthDate.getMonth();
+      if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
+        age -= 1;
+      }
+      return age < 18;
+    },
+    validateEmail(email) {
+      // eslint-disable-next-line no-useless-escape
+      const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+      return re.test(String(email).toLowerCase());
     },
   },
   mounted() {
@@ -379,6 +509,12 @@ export default {
       }
     }
 
+    &__note {
+      &.error {
+        color: #ec5959;
+      }
+    }
+
     &__secondary-label {
       padding-left: 16px;
       font-size: 12px;
@@ -417,6 +553,10 @@ export default {
       top: -6px;
       left: 6px;
       background: #fff;
+    }
+
+    &.error {
+      color: #ec5959;
     }
   }
 

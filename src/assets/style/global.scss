@@ -51,10 +51,13 @@ table {
 	border-spacing: 0;
 }
 
+input[type="date"] {
+  -webkit-min-logical-width: calc(100% - 16px);
+}
+
 button {
   -webkit-appearance: none !important;
 }
-
 
 h1 {
   text-align: center;

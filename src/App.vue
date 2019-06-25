@@ -23,13 +23,12 @@ export default {
   box-sizing: border-box;
   background: url('./assets/images/bg--tablet.jpg');
   background-position: center top;
-
+  background-size: cover;
 
   @media screen and (min-width: 1220px) {
     background: url('./assets/images/bg--desktop.jpg');
-    background-size: cover;
-    min-height: 1242px;
+    min-height: 1200px;
+    background-position: center top;
   }
-
 }
 </style>
