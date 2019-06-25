@@ -672,10 +672,26 @@ export default {
     &__secondary-label {
       padding-left: 16px;
       font-size: 12px;
+      display: block;
+      margin-bottom: 8px;
+
+      input {
+        position: relative;
+        top: 2px;
+        margin: 0 4px 0 0;
+      }
+
+      @media screen and (min-width: 760px) {
+        display: inline-block;
+      }
     }
 
     &--password {
-      padding-top: 8px;
+      padding-top: 20px;
+
+      @media screen and (min-width: 760px) {
+        padding-top: 8px;
+      }
     }
 
     &--sm-margin {
@@ -793,14 +809,14 @@ export default {
 
 .c-profile-pic-upload {
   display: grid;
-  grid-template-columns: 120px auto;
+  grid-template-columns: 90px auto;
   grid-column-gap: 30px;
   align-items: center;
-  padding: 17px 0 0 17px;
+  padding: 17px 0 0 10px;
 
   &__image {
-    width: 120px;
-    height: 120px;
+    width: 90px;
+    height: 90px;
     border-radius: 50%;
   }
 
@@ -825,6 +841,30 @@ export default {
 
     &:hover {
       background-image: linear-gradient(to bottom, #6c6868, #3a3737);
+    }
+  }
+
+  @media screen and (min-width: 760px) {
+    padding: 17px 0 0 17px;
+    grid-template-columns: 120px auto;
+
+     &__image {
+      width: 120px;
+      height: 120px;
+     }
+  }
+
+  // IE11 fixes
+  @media all and (-ms-high-contrast:none) {
+
+    &__btn,
+    &__image {
+      display: inline-block;
+      vertical-align: middle;
+    }
+
+    &__btn {
+      margin-right: 30px;
     }
   }
 }
