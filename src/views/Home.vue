@@ -700,6 +700,10 @@ export default {
   }
 
   &__text-input {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+
     display: block;
     border-radius: 3px;
     border: solid 1px #949494;
