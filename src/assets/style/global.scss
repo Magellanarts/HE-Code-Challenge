@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css?family=Merriweather|Nunito:400,800');
+@import url('https://fonts.googleapis.com/css?family=Nunito:400,800');
 
 /* http://meyerweb.com/eric/tools/css/reset/ 
    v2.0 | 20110126
@@ -60,19 +60,477 @@ button {
 }
 
 h1 {
-  text-align: center;
   text-transform: uppercase;
-  font-size: 36px;
+  font-size: 26px;
   font-weight: 800;
   color: #3a3737;
+
+  @media screen and (min-width: 760px) {
+    font-size: 36px;
+    text-align: center;
+  }
 }
 
 h2 {
-  text-transform: uppercase;
   font: 20px/1.15 'Nunito';
   letter-spacing: 1.43px;
   color: #3a3737;
   margin-bottom: 12px;
+}
+
+.l-content-container {
+  background: #fff;
+  max-width: 559px;
+  width: 90%;
+  margin: 0 auto;
+  box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.25);
+  box-sizing: border-box;
+  padding: 43px 25px 32px;
+
+  @media screen and (min-width: 760px) {
+    padding: 43px 76px 32px 77px;
+  }
+}
+
+.c-page-header {
+  position: relative;
+  padding-left: 5%;
+  height: 72px;
+  display: grid;
+  grid-template-columns: 1fr;
+  align-items: center;
+  color: #3a3737;
+  border-bottom: solid 3px #3a3737;
+  
+
+  &__submission-date {
+    display: none;
+    font-size: 14px;
+    letter-spacing: 1px;
+    text-align: center;
+  }
+
+  &__user {
+    display: none;
+    margin: 0 auto;
+
+    &__photo {
+      height: 40px;
+      width: 40px;
+      background-size: cover;
+      background-position: center center;
+      border-radius: 50%;
+    }
+
+    &__name {
+      font-size: 14px;
+    }
+  }
+
+  @media screen and (min-width: 760px) {
+    height: 97px;
+    text-align: center;
+    padding-left: 0;
+    
+    &__submission-date {
+      display: block;
+    }
+
+    &__user {
+      display: grid;
+      grid-template-columns: 40px auto;
+      align-items: center;
+      grid-column-gap: 10px;
+    }
+
+    &--grid {
+      grid-template-columns: 25% 50% 25%;
+    }
+  }
+
+  @media screen and (min-width:1014px) {
+    &--grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+}
+
+.c-nav-toggle {
+  width: 30px;
+  height: 24px;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  margin: auto;
+  right: 24px;
+  cursor: pointer;
+
+  &:before,
+  &:after {
+    content: '';
+    height: 4px;
+    width: 30px;
+    background: #000;
+    position: absolute;
+    left: 0;
+    transition: .2s linear;
+  }
+
+  &:before {
+    top: 0;
+  }
+
+  &:after {
+    top: 20px;
+  }
+
+  &__inner {
+    height: 4px;
+    width: 30px;
+    background: #000;
+    position: absolute;
+    left: 0;
+    top: 10px;
+    transition: .2s linear;
+    opacity: 1;
+  }
+
+  &.is-active {
+    .c-nav-toggle__inner {
+      opacity: 0;
+    }
+
+    &:before {
+      transform: rotate(45deg);
+      top: 10px;
+    }
+
+    &:after {
+      transform: rotate(-45deg);
+      top: 10px;
+    }
+  }
+
+  @media screen and (min-width: 760px) {
+    display: none;
+  }
+}
+
+.c-content-header {
+  text-align: center;
+  margin-bottom: 12px;
+
+  &__border-squiggle {
+    width: 64px;
+    display: inline-block;
+    margin-bottom: 2px;
+  }
+
+  &__note {
+    font: 11px/1.2 'Nunito';
+    margin-bottom: 20px;
+
+    sup {
+      font-size: 21px;
+      line-height: 11px;
+      font-weight: 400;
+      position: relative;
+      top: 5px;
+    }
+  }
+}
+
+.c-account-form {
+  padding-top: 13px;
+
+  &__field {
+    margin-bottom: 35px;
+    position: relative;
+
+    &__meta {
+      position: absolute;
+      top: -16px;
+      right: 0;
+      text-align: right;
+      font-size: 9px;
+    }
+
+    &__action {
+      cursor: pointer;
+      text-transform: uppercase;
+      margin-bottom: 2px;
+
+      &:hover {
+        color: #3a3737;
+      }
+    }
+
+    &__note {
+      &.error {
+        color: #ec5959;
+      }
+    }
+
+    &__secondary-label {
+      padding-left: 16px;
+      font-size: 12px;
+      display: block;
+      margin-bottom: 8px;
+
+      input {
+        position: relative;
+        top: 2px;
+        margin: 0 4px 0 0;
+      }
+
+      @media screen and (min-width: 760px) {
+        display: inline-block;
+      }
+    }
+
+    &--password {
+      padding-top: 20px;
+
+      @media screen and (min-width: 760px) {
+        padding-top: 8px;
+      }
+    }
+
+    &--sm-margin {
+      margin-bottom: 29px;
+    }
+  }
+
+  &__field-container {
+    position: relative;
+  }
+
+  &__label {
+    text-transform: uppercase;
+    font-size: 12px;
+    font-weight: 800;
+    display: block;
+    margin-bottom: 10px;
+
+    sup {
+      font-size: 19px;
+      position: absolute;
+      top: -6px;
+      font-weight: 400;
+    }
+
+    &--positioned {
+      position: absolute;
+      padding: 0 5px;
+      top: -6px;
+      left: 6px;
+      background: #fff;
+    }
+
+    &.error {
+      color: #ec5959;
+    }
+  }
+
+  &__text-input {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+
+    display: block;
+    border-radius: 3px;
+    border: solid 1px #949494;
+    height: 36px;
+    width: 100%;
+    font-family: 'Nunito';
+    box-sizing: border-box;
+    padding-left: 20px;
+    font-size: 14px;
+    color: #3a3737;
+    outline: none;
+    transition: .125s ease-in;
+
+    &:hover {
+      box-shadow: inset 0 0 0 1px #949494;
+    }
+
+    &:focus {
+      border-color: #f6b93d;
+      box-shadow: inset 0 0 0 1px #f6b93d;
+    }
+
+    &.error {
+      border-color: #ec5959;
+      box-shadow: inset 0 0 0 1px #ec5959;
+    }
+  }
+
+  &__footer {
+    text-align: center;
+    padding-top: 4px;
+  }
+
+  &__submit-btn {
+    border: none;
+    background-color: #3a3737;
+    border-radius: 3px;
+    width: 100%;
+    height: 45px;
+    font: 800 14px/45px 'Nunito';
+    letter-spacing: 1px;
+    color: #fff;
+    text-transform: uppercase;
+    text-align: center;
+    margin-bottom: 11px;
+    cursor: pointer;
+    outline: none;
+    transition: .125s ease-in;
+
+    &:hover {
+      color: #ec5959;
+      background-image: linear-gradient(to bottom, #6c6868, #3a3737);
+    }
+  }
+
+  &__reset-btn {
+    display: inline-block;
+    text-align: center;
+    height: 16px;
+    width: 107px;
+    font: 12px/16px 'Nunito';
+    color: #949494;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: .125s ease-in;
+
+    &:hover {
+      color: #ec5959;
+    }
+  }
+}
+
+.c-profile-pic-upload {
+  display: grid;
+  grid-template-columns: 90px auto;
+  grid-column-gap: 30px;
+  align-items: center;
+  padding: 17px 0 0 10px;
+
+  &__image {
+    width: 90px;
+    height: 90px;
+    border-radius: 50%;
+  }
+
+  &__btn {
+    -ms-grid-row-align: center;
+    align-self: center;
+    border: none;
+    border-radius: 3px;
+    width: 90px;
+    height: 30px;
+    border-radius: 3px;
+    background-color: #949494;
+    font-size: 12px;
+    letter-spacing: 1px;
+    line-height: 30px;
+    text-align: center;
+    text-transform: uppercase;
+    color: #fff;
+    cursor: pointer;
+    outline: none;
+    transition: .125s ease-in;
+
+    &:hover {
+      background-image: linear-gradient(to bottom, #6c6868, #3a3737);
+    }
+  }
+
+  @media screen and (min-width: 760px) {
+    padding: 17px 0 0 17px;
+    grid-template-columns: 120px auto;
+
+     &__image {
+      width: 120px;
+      height: 120px;
+     }
+  }
+
+  // IE11 fixes
+  @media all and (-ms-high-contrast:none) {
+
+    &__btn,
+    &__image {
+      display: inline-block;
+      vertical-align: middle;
+    }
+
+    &__image {
+      margin-right: 30px;
+    }
+  }
+}
+
+.c-account {
+  &__header {
+    display: grid;
+    grid-template-columns: 60px auto;
+    grid-column-gap: 30px;
+    align-items: center;
+  }
+  &__photo {
+    width: 60px;
+    height: 60px;
+    background-size: cover;
+    background-position: center center;
+    border-radius: 50%;
+    margin: 20px 0;
+  }
+
+  &__main {
+    border-bottom: solid 1px #979797;
+  }
+
+  &__name {
+    font-size: 15px;
+    color: #3a3737;
+    font-weight: 800;
+  }
+
+  &__email {
+    font-size: 13px;
+    color: #949494;
+    text-decoration: none;
+
+    &:hover {
+      color: #ec5959;
+    }
+  }
+}
+
+.slide-enter-active,
+.slide-leave-active {
+  transition: all .5s cubic-bezier(1.0, 0.5, 0.8, 1.0);
+}
+
+.slide-enter {
+  transform: translateY(10px);
+  opacity: 0;
+
+  &-to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.slide-leave {
+  transform: translateY(10px);
+  opacity: 1;
+
+  &-to {
+    transform: translateY(2%);
+    opacity: 0;
+  }
 }
 
 .u-visually-hidden {
