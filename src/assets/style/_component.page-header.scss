@@ -82,6 +82,12 @@
 
       .c-page-header__user {
         display: inline-block;
+
+        &__photo,
+        &__name {
+          display: inline-block;
+          vertical-align: middle;
+        }
       }
 
       .c-page-header__submission-date,
