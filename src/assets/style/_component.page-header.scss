@@ -63,21 +63,29 @@
   @media all and (-ms-high-contrast:none) {
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: flex-start;
 
     &__user {
       &__name {
         margin-left: 10px;
       }
     }
-    
+  }
+
+  @media all and (-ms-high-contrast:none) and (min-width: 760px) {
+    justify-content: space-between;
+
     &--grid {
       h1 {
         width: 50%;
       }
 
-      &__submission-date,
-      &__user {
+      .c-page-header__user {
+        display: inline-block;
+      }
+
+      .c-page-header__submission-date,
+      .c-page-header__user {
         width: 25%;
       }
     }
