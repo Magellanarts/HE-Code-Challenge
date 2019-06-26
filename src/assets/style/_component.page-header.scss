@@ -64,5 +64,22 @@
     display: flex;
     align-items: center;
     justify-content: center;
+
+    &__user {
+      &__name {
+        margin-left: 10px;
+      }
+    }
+    
+    &--grid {
+      h1 {
+        width: 50%;
+      }
+
+      &__submission-date,
+      &__user {
+        width: 25%;
+      }
+    }
   }
 }
