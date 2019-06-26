@@ -1,14 +1,24 @@
 .l-main-content {
   padding: 70px 0;
   box-sizing: border-box;
-  background: url('../images/bg--tablet.jpg');
+  background: url('../images/bg--tablet.webp');
   background-position: center top;
   background-size: cover;
 
   @media screen and (min-width: 1220px) {
-    background: url('../images/bg--desktop.jpg');
+    background: url('../images/bg--desktop.webp');
     min-height: 1200px;
     background-position: center top;
+  }
+}
+
+.no-webp {
+  .l-main-content {
+    background: url('../images/bg--tablet.jpg');
+
+    @media screen and (min-width: 1220px) {
+      background: url('../images/bg--desktop.jpg');
+    }
   }
 }
 
