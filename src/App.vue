@@ -458,14 +458,14 @@ import placeHolderPhoto from '@/assets/images/profile-pic.svg';
 export default {
   data() {
     return {
-      showForm: true,
-      showAccounts: false,
+      showForm: false,
+      showAccounts: true,
       validZipCodes: [
         57001, 57002, 57003, 57004, 57005, 57006, 57007, 57010, 57012, 57013, 57014, 57015,
       ],
       accounts: [],
       account: {
-        name: '',
+        name: 'Greg Lucas',
         email: '',
         birthday: '',
         zipcode: '',

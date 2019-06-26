@@ -8,7 +8,6 @@
   color: #3a3737;
   border-bottom: solid 3px #3a3737;
   
-
   &__submission-date {
     display: none;
     font-size: 14px;
@@ -58,5 +57,12 @@
     &--grid {
       grid-template-columns: repeat(3, 1fr);
     }
+  }
+
+   // IE11 fixes
+  @media all and (-ms-high-contrast:none) {
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 }
