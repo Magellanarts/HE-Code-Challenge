@@ -2,7 +2,7 @@
   <div>
     <section class="l-content-container">
       <transition>
-        <div>
+        <div v-if="showForm">
           <header class="c-content-header">
             <h2>Create an Account</h2>
             <img
@@ -313,8 +313,8 @@
               <div class="c-account-form__field__meta">
                 <div
                   class="c-account-form__field__note"
-                  :class="{error: errors.photo.error}"
-                  v-if="errors.photo.error === true"
+                  :class="{error: errors.profileImage.error}"
+                  v-if="errors.profileImage.error === true"
                 >
                   Required Field
                 </div>
@@ -322,7 +322,7 @@
 
               <label
                 class="c-account-form__label"
-                :class="{error: errors.photo.error}"
+                :class="{error: errors.profileImage.error}"
                 for="profile-pic"
               >Upload Your Profile Pic<sup>*</sup></label>
               <input
@@ -337,7 +337,7 @@
 
               <div class="c-profile-pic-upload">
                 <img
-                  :src="account.photo"
+                  :src="account.profileImage"
                   alt="Account Photo"
                   class="c-profile-pic-upload__image"
                 />
@@ -362,6 +362,44 @@
             </div>
           </form>
         </div>
+
+        <div v-if="showAccounts">
+          <header class="c-content-header">
+            <h2>CONGRATS! Thanks for joining.</h2>
+            <img
+              class="c-content-header__border-squiggle"
+              src="@/assets/images/squiggle.svg"
+              alt="Decorative squiggle line" />
+          </header>
+
+          <section>
+            <div
+              class="c-accounts-list"
+              v-if="accounts"
+            >
+              <div
+                class="c-account"
+                v-for="account in alphabeticalAccounts"
+                :key="account.email"
+              >
+                <div class="c-account__header">
+                  <div
+                    class="c-account__photo"
+                    :style="`background-image: url(${ account.profileImage })`"
+                  />
+
+                  <div class="c-account__main">
+                    <div class="c-account__name">{{ account.name }}</div>
+                    <a
+                      :href="`mailto:${account.email}`"
+                      class="c-account__email"
+                    >{{ account.email }}</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+        </div>
       </transition>
     </section>
   </div>
@@ -375,6 +413,8 @@ export default {
   name: 'home',
   data() {
     return {
+      showForm: true,
+      showAccounts: false,
       validZipCodes: [
         57001, 57002, 57003, 57004, 57005, 57006, 57007, 57010, 57012, 57013, 57014, 57015,
       ],
@@ -388,7 +428,7 @@ export default {
         confirmPassword: '',
         gender: '',
         newsletter: '',
-        photo: placeHolderPhoto,
+        profileImage: placeHolderPhoto,
       },
       photoUploaded: false,
       errors: {
@@ -423,7 +463,7 @@ export default {
         newsletter: {
           error: false,
         },
-        photo: {
+        profileImage: {
           required: true,
           error: false,
         },
@@ -460,7 +500,7 @@ export default {
         reader.onload = () => {
         // reader.result has image url
         // update photoURL to this new image
-          this.account.photo = reader.result;
+          this.account.profileImage = reader.result;
 
           this.photoUploaded = true;
         };
@@ -475,10 +515,10 @@ export default {
       Object.keys(this.account).map((key) => {
         // check if the key is photo,
         // if so, we need to set it to the placeholder image instead of a blank string
-        if (key !== 'photo') {
+        if (key !== 'profileImage') {
           this.account[key] = '';
         } else {
-          this.account.photo = placeHolderPhoto;
+          this.account.profileImage = placeHolderPhoto;
         }
       });
     },
@@ -489,6 +529,9 @@ export default {
         // all required fields are present
         // add account user to accounts list
         this.accounts.push(this.account);
+        // show accounts section
+        this.showForm = false;
+        this.showAccounts = true;
       }
     },
     // Form Validation Functions
@@ -566,7 +609,7 @@ export default {
 
       // check to see if image has been uploaded
       if (this.photoUploaded === false) {
-        this.errors.photo.error = true;
+        this.errors.profileImage.error = true;
         formContainsError = true;
       }
 
@@ -589,6 +632,33 @@ export default {
     },
     validatePassword() {
       return /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/.test(this.account.password);
+    },
+  },
+  computed: {
+    alphabeticalAccounts() {
+      const accountsArray = [];
+
+      if (this.accounts) {
+        this.accounts.forEach((account) => {
+          const accountCopy = {};
+          Object.assign(accountCopy, account);
+          const name = account.name.split(' ');
+          // eslint-disable-next-line prefer-destructuring
+          [accountCopy.firstName, accountCopy.lastName] = name;
+          accountsArray.push(accountCopy);
+        });
+
+        accountsArray.sort((a, b) => {
+          const nameA = a.lastName.toLowerCase();
+          const nameB = b.lastName.toLowerCase();
+          // sort string ascending
+          if (nameA < nameB) { return -1; }
+          if (nameA > nameB) { return 1; }
+          return 0; // default return value (no sorting)
+        });
+      }
+
+      return accountsArray;
     },
   },
   mounted() {
@@ -863,8 +933,45 @@ export default {
       vertical-align: middle;
     }
 
-    &__btn {
+    &__image {
       margin-right: 30px;
+    }
+  }
+}
+
+.c-account {
+  &__header {
+    display: grid;
+    grid-template-columns: 60px auto;
+    grid-column-gap: 30px;
+    align-items: center;
+  }
+  &__photo {
+    width: 60px;
+    height: 60px;
+    background-size: cover;
+    background-position: center center;
+    border-radius: 50%;
+    margin: 20px 0;
+  }
+
+  &__main {
+    border-bottom: solid 1px #979797;
+  }
+
+  &__name {
+    font-size: 15px;
+    color: #3a3737;
+    font-weight: 800;
+  }
+
+  &__email {
+    font-size: 13px;
+    color: #949494;
+    text-decoration: none;
+
+    &:hover {
+      color: #ec5959;
     }
   }
 }
