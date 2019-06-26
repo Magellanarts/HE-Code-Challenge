@@ -9,7 +9,7 @@
         class="c-page-header__submission-date"
       >{{ today }}</div>
 
-      <h1>Code Challenge</h1>
+      <h1 class="u-uppercase">Code Challenge</h1>
 
       <div
         v-if="showAccounts"
@@ -27,12 +27,13 @@
         <div class="c-nav-toggle__inner"/>
       </div>
     </header>
+
     <main class="l-main-content">
       <section class="l-content-container">
         <transition name="slide" mode="out-in">
           <div v-if="showForm" key="formView">
             <header class="c-content-header">
-              <h2>CREATE AN ACCOUNT</h2>
+              <h2 class="u-uppercase">Create an Account</h2>
               <img
                 class="c-content-header__border-squiggle"
                 src="@/assets/images/squiggle.svg"
@@ -274,6 +275,7 @@
 
                 <label class="c-account-form__field__secondary-label" for="male">
                   <input
+                    class="c-styled-form-input"
                     type="radio"
                     id="male"
                     name="gender-identity"
@@ -281,11 +283,13 @@
                     v-model="account.gender"
                     required
                   >
-                  Male
+                  <div class="c-styled-form-input-toggle c-radio-btn" />
+                  <span>Male</span>
                 </label>
 
                 <label class="c-account-form__field__secondary-label" for="female">
                   <input
+                    class="c-styled-form-input"
                     type="radio"
                     id="female"
                     name="gender-identity"
@@ -293,11 +297,13 @@
                     v-model="account.gender"
                     required
                   >
-                  Female
+                  <div class="c-styled-form-input-toggle c-radio-btn" />
+                  <span>Female</span>
                 </label>
 
                 <label class="c-account-form__field__secondary-label" for="non-binary">
                   <input
+                    class="c-styled-form-input"
                     type="radio"
                     name="gender-identity"
                     id="non-binary"
@@ -305,11 +311,13 @@
                     v-model="account.gender"
                     required
                   >
-                  Non-Binary
+                  <div class="c-styled-form-input-toggle c-radio-btn" />
+                  <span>Non-Binary</span>
                 </label>
 
                 <label class="c-account-form__field__secondary-label" for="other">
                   <input
+                    class="c-styled-form-input"
                     type="radio"
                     name="gender-identity"
                     id="other"
@@ -317,7 +325,8 @@
                     v-model="account.gender"
                     required
                   >
-                  Other
+                  <div class="c-styled-form-input-toggle c-radio-btn" />
+                  <span>Other</span>
                 </label>
               </div>
 
@@ -331,12 +340,14 @@
                   for="newsletter"
                   class="c-account-form__field__secondary-label">
                   <input
+                    class="c-styled-form-input"
                     type="checkbox"
                     name="newsletter"
                     id="newsletter"
                     v-model="account.newsletter"
                   >
-                  Yes
+                  <div class="c-styled-form-input-toggle c-checkbox" />
+                  <span>Yes</span>
                 </label>
               </div>
 
@@ -367,10 +378,9 @@
                 />
 
                 <div class="c-profile-pic-upload">
-                  <img
-                    :src="account.profileImage"
-                    alt="Account Photo"
+                  <div
                     class="c-profile-pic-upload__image"
+                    :style="`background-image: url(${ account.profileImage })`"
                   />
 
                   <button
@@ -404,11 +414,11 @@
             </header>
 
             <section>
-              <div
+              <ul
                 class="c-accounts-list"
                 v-if="accounts"
               >
-                <div
+                <li
                   class="c-account"
                   v-for="account in alphabeticalAccounts"
                   :key="account.email"
@@ -421,14 +431,18 @@
 
                     <div class="c-account__main">
                       <div class="c-account__name">{{ account.name }}</div>
-                      <a
-                        :href="`mailto:${account.email}`"
-                        class="c-account__email"
-                      >{{ account.email }}</a>
+                      <div>
+                        <a
+                          :href="`mailto:${account.email}`"
+                          class="c-account__email"
+                        >{{ account.email }}</a>
+                      </div>
+
+                      <div class="c-account__toggle"/>
                     </div>
                   </div>
-                </div>
-              </div>
+                </li>
+              </ul>
             </section>
           </div>
         </transition>
@@ -553,7 +567,9 @@ export default {
         }
       });
     },
+    // handle form submission
     submitForm() {
+      // check to make sure all requirements are met
       const invalidForm = this.formValidation();
 
       if (!invalidForm) {
@@ -674,7 +690,6 @@ export default {
           const accountCopy = {};
           Object.assign(accountCopy, account);
           const name = account.name.split(' ');
-          // eslint-disable-next-line prefer-destructuring
           [accountCopy.firstName, accountCopy.lastName] = name;
           accountsArray.push(accountCopy);
         });

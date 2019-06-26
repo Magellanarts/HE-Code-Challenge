@@ -59,8 +59,85 @@ button {
   -webkit-appearance: none !important;
 }
 
+input[type="radio"],
+input[type="checkbox"] {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+input[type="radio"] {
+  &:checked + .c-styled-form-input-toggle {
+    background: #3a3737;
+    border-color: #3a3737;
+
+    &:before {
+      opacity: 1;
+    }
+  }
+}
+
+input[type="checkbox"] {
+  &:checked + .c-styled-form-input-toggle {
+    &:before {
+      opacity: 1;
+    }
+  }
+}
+
+.c-styled-form-input-toggle {
+  display: inline-block;
+  vertical-align: middle;
+  top: -2px;
+  box-sizing: border-box;
+  width: 16px;
+  height: 16px;
+  border: solid 1px #979797;
+  position: relative;
+  transition: .125s linear;
+  margin-right: 7px;
+
+  &:before,
+  &:after  {
+    content: '';
+    position: absolute;
+    opacity: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    margin: auto;
+  }
+}
+
+.c-radio-btn {
+  border-radius: 50%;
+  
+  &:before {
+    background: #fff;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+  }
+}
+
+.c-checkbox  {
+  border-radius: 2px;
+  border-color: #949494;
+  margin-right: 10px;
+
+  &:before {
+    transition: .125s linear;
+    border-right: solid 2px #3a3737;
+    border-bottom: solid 2px #3a3737;
+    width: 3px;
+    height: 7px;
+    transform: rotate(45deg);
+    top: -2px;
+  }
+}
+
 h1 {
-  text-transform: uppercase;
   font-size: 26px;
   font-weight: 800;
   color: #3a3737;
@@ -272,10 +349,12 @@ h2 {
     }
 
     &__secondary-label {
-      padding-left: 16px;
+      margin-left: 13px;
       font-size: 12px;
       display: block;
       margin-bottom: 8px;
+      cursor: pointer;
+      transition: .125 linear;
 
       input {
         position: relative;
@@ -283,8 +362,17 @@ h2 {
         margin: 0 4px 0 0;
       }
 
+      &:hover {
+        color: #3a3737;
+
+        .c-radio-btn {
+          border-color: #3a3737;
+        }
+      }
+
       @media screen and (min-width: 760px) {
         display: inline-block;
+        margin-bottom: 0;
       }
     }
 
@@ -310,7 +398,7 @@ h2 {
     font-size: 12px;
     font-weight: 800;
     display: block;
-    margin-bottom: 10px;
+    margin-bottom: 13px;
 
     sup {
       font-size: 19px;
@@ -420,6 +508,8 @@ h2 {
     width: 90px;
     height: 90px;
     border-radius: 50%;
+    background-size: cover;
+    background-position: center center;
   }
 
   &__btn {
@@ -470,6 +560,10 @@ h2 {
   }
 }
 
+.c-accounts-list {
+  margin-bottom: 50px;
+}
+
 .c-account {
   &__header {
     display: grid;
@@ -477,6 +571,7 @@ h2 {
     grid-column-gap: 30px;
     align-items: center;
   }
+
   &__photo {
     width: 60px;
     height: 60px;
@@ -488,12 +583,18 @@ h2 {
 
   &__main {
     border-bottom: solid 1px #979797;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    position: relative;
   }
 
   &__name {
     font-size: 15px;
     color: #3a3737;
     font-weight: 800;
+    margin-bottom: 7px;
   }
 
   &__email {
@@ -503,6 +604,43 @@ h2 {
 
     &:hover {
       color: #ec5959;
+    }
+  }
+
+  &__toggle {
+    position: absolute;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    margin: auto;
+    height: 15px;
+    width: 15px;
+    cursor: pointer;
+
+    &:before,
+    &:after {
+      content: '';
+      height: 15px;
+      width: 2px;
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      margin: auto;
+      background: #3a3737;
+      border-radius: 2px;
+      transition: transform .2s linear;
+    }
+
+    &:after {
+      transform: rotate(90deg);
+    }
+
+    &:hover {
+      &:before,
+      &:after {
+        background: #ec5959;
+      }
     }
   }
 }
@@ -538,4 +676,8 @@ h2 {
   clip: rect(0 0 0 0); 
   height: 1px; width: 1px; 
   margin: -1px; padding: 0; border: 0; 
+}
+
+.u-uppercase {
+  text-transform: uppercase;
 }
