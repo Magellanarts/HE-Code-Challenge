@@ -1,0 +1,43 @@
+h1 {
+  font-size: 26px;
+  font-weight: 800;
+  color: #3a3737;
+
+  @media screen and (min-width: 760px) {
+    font-size: 36px;
+    text-align: center;
+  }
+}
+
+h2 {
+  font: 20px/1.15 'Nunito';
+  letter-spacing: 1.43px;
+  color: #3a3737;
+  margin-bottom: 12px;
+}
+
+input[type="radio"],
+input[type="checkbox"] {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+input[type="radio"] {
+  &:checked + .c-styled-form-input-toggle {
+    background: #3a3737;
+    border-color: #3a3737;
+
+    &:before {
+      opacity: 1;
+    }
+  }
+}
+
+input[type="checkbox"] {
+  &:checked + .c-styled-form-input-toggle {
+    &:before {
+      opacity: 1;
+    }
+  }
+}

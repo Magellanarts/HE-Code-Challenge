@@ -1,0 +1,62 @@
+.c-page-header {
+  position: relative;
+  padding-left: 5%;
+  height: 72px;
+  display: grid;
+  grid-template-columns: 1fr;
+  align-items: center;
+  color: #3a3737;
+  border-bottom: solid 3px #3a3737;
+  
+
+  &__submission-date {
+    display: none;
+    font-size: 14px;
+    letter-spacing: 1px;
+    text-align: center;
+  }
+
+  &__user {
+    display: none;
+    margin: 0 auto;
+
+    &__photo {
+      height: 40px;
+      width: 40px;
+      background-size: cover;
+      background-position: center center;
+      border-radius: 50%;
+    }
+
+    &__name {
+      font-size: 14px;
+    }
+  }
+
+  @media screen and (min-width: 760px) {
+    height: 97px;
+    text-align: center;
+    padding-left: 0;
+    
+    &__submission-date {
+      display: block;
+    }
+
+    &__user {
+      display: grid;
+      grid-template-columns: 40px auto;
+      align-items: center;
+      grid-column-gap: 10px;
+    }
+
+    &--grid {
+      grid-template-columns: 25% 50% 25%;
+    }
+  }
+
+  @media screen and (min-width:1014px) {
+    &--grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+}

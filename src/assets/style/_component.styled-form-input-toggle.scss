@@ -1,0 +1,51 @@
+.c-styled-form-input-toggle {
+  display: inline-block;
+  vertical-align: middle;
+  top: -2px;
+  box-sizing: border-box;
+  width: 16px;
+  height: 16px;
+  border: solid 1px #979797;
+  position: relative;
+  transition: .125s linear;
+  margin-right: 7px;
+
+  &:before,
+  &:after  {
+    content: '';
+    position: absolute;
+    opacity: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    margin: auto;
+  }
+}
+
+.c-radio-btn {
+  border-radius: 50%;
+  
+  &:before {
+    background: #fff;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+  }
+}
+
+.c-checkbox  {
+  border-radius: 2px;
+  border-color: #949494;
+  margin-right: 10px;
+
+  &:before {
+    transition: .125s linear;
+    border-right: solid 2px #3a3737;
+    border-bottom: solid 2px #3a3737;
+    width: 3px;
+    height: 7px;
+    transform: rotate(45deg);
+    top: -2px;
+  }
+}

@@ -1,0 +1,60 @@
+.c-nav-toggle {
+  width: 30px;
+  height: 24px;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  margin: auto;
+  right: 24px;
+  cursor: pointer;
+
+  &:before,
+  &:after {
+    content: '';
+    height: 4px;
+    width: 30px;
+    background: #000;
+    position: absolute;
+    left: 0;
+    transition: .2s linear;
+  }
+
+  &:before {
+    top: 0;
+  }
+
+  &:after {
+    top: 20px;
+  }
+
+  &__inner {
+    height: 4px;
+    width: 30px;
+    background: #000;
+    position: absolute;
+    left: 0;
+    top: 10px;
+    transition: .2s linear;
+    opacity: 1;
+  }
+
+  &.is-active {
+    .c-nav-toggle__inner {
+      opacity: 0;
+    }
+
+    &:before {
+      transform: rotate(45deg);
+      top: 10px;
+    }
+
+    &:after {
+      transform: rotate(-45deg);
+      top: 10px;
+    }
+  }
+
+  @media screen and (min-width: 760px) {
+    display: none;
+  }
+}
