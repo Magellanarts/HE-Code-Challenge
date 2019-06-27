@@ -79,13 +79,18 @@
   }
 
   @media all and (-ms-high-contrast:none) {
-    &__photo,
-    &__main {
+    &__header {
+      display: flex;
+      height: 99px;
+    }
+
+    &__photo {
       display: inline-block;
       vertical-align: middle;
     }
 
     &__main {
+      display: flex;
       margin-left: 30px;
       width: calc(100% - 90px);
     }

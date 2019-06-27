@@ -275,7 +275,7 @@
 
                 <label class="c-account-form__field__secondary-label" for="male">
                   <input
-                    class="c-styled-form-input"
+                    class="c-styled-form-input u-visually-hidden"
                     type="radio"
                     id="male"
                     name="gender-identity"
@@ -289,7 +289,7 @@
 
                 <label class="c-account-form__field__secondary-label" for="female">
                   <input
-                    class="c-styled-form-input"
+                    class="c-styled-form-input u-visually-hidden"
                     type="radio"
                     id="female"
                     name="gender-identity"
@@ -303,7 +303,7 @@
 
                 <label class="c-account-form__field__secondary-label" for="non-binary">
                   <input
-                    class="c-styled-form-input"
+                    class="c-styled-form-input u-visually-hidden"
                     type="radio"
                     name="gender-identity"
                     id="non-binary"
@@ -317,7 +317,7 @@
 
                 <label class="c-account-form__field__secondary-label" for="other">
                   <input
-                    class="c-styled-form-input"
+                    class="c-styled-form-input u-visually-hidden"
                     type="radio"
                     name="gender-identity"
                     id="other"
@@ -340,7 +340,7 @@
                   for="newsletter"
                   class="c-account-form__field__secondary-label">
                   <input
-                    class="c-styled-form-input"
+                    class="c-styled-form-input u-visually-hidden"
                     type="checkbox"
                     name="newsletter"
                     id="newsletter"
@@ -458,14 +458,14 @@ import placeHolderPhoto from '@/assets/images/profile-pic.svg';
 export default {
   data() {
     return {
-      showForm: false,
-      showAccounts: true,
+      showForm: true,
+      showAccounts: false,
       validZipCodes: [
         57001, 57002, 57003, 57004, 57005, 57006, 57007, 57010, 57012, 57013, 57014, 57015,
       ],
       accounts: [],
       account: {
-        name: 'Greg Lucas',
+        name: '',
         email: '',
         birthday: '',
         zipcode: '',
@@ -571,7 +571,7 @@ export default {
     submitForm() {
       // check to make sure all requirements are met
       const invalidForm = this.formValidation();
-
+      console.log(invalidForm);
       if (!invalidForm) {
         // all required fields are present
         // add account user to accounts list
@@ -648,6 +648,7 @@ export default {
 
       // if there is already a confirmPassword error, don't need these checks
       if (!this.errors.confirmPassword.error) {
+        console.log('checking');
         if (this.account.confirmPassword !== this.account.password) {
           this.errors.confirmPassword.error = 'mismatch';
           formContainsError = true;
