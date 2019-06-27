@@ -629,7 +629,7 @@ export default {
       if (!this.errors.birthday.error) {
       // check to see if age is under 18.
       // set the error object to true if under 18
-        if (this.getAge() < 18) {
+        if (this.getAge(this.account.birthday) < 18) {
           this.errors.birthday.error = 'underage';
           formContainsError = true;
         }
@@ -751,10 +751,15 @@ export default {
           Object.assign(accountCopy, account);
           const name = account.name.split(' ');
           [accountCopy.firstName, accountCopy.lastName] = name;
+
+          if (accountCopy.lastName === undefined) {
+            accountCopy.lastName = 'A';
+          }
           accountsArray.push(accountCopy);
         });
 
         accountsArray.sort((a, b) => {
+          console.log(a, b);
           const nameA = a.lastName.toLowerCase();
           const nameB = b.lastName.toLowerCase();
           // sort string ascending
