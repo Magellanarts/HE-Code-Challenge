@@ -2,10 +2,10 @@
   padding: 70px 0;
   box-sizing: border-box;
   background-position: center top;
-  background-size: cover;
 
   @media screen and (min-width: 1220px) {
     min-height: 1200px;
+    background-size: auto;
   }
 }
 
