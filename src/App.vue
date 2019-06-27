@@ -707,10 +707,10 @@ export default {
     toggleAccountDetails(index) {
       // toggle the is-open class on the details div
       // this will hide or show that div
-      document.querySelector(`[data-id="account-details-${index}"`).classList.toggle('is-open');
+      document.querySelector(`[data-id="account-details-${index}"]`).classList.toggle('is-open');
 
       // do same class toggling for the toggle icon
-      document.querySelector(`[data-id="account-toggle-icon-${index}"`).classList.toggle('is-active');
+      document.querySelector(`[data-id="account-toggle-icon-${index}"]`).classList.toggle('is-active');
     },
     checkNewsletterSubscription(newsletter) {
       if (newsletter === '' || newsletter === false) {
@@ -759,7 +759,6 @@ export default {
         });
 
         accountsArray.sort((a, b) => {
-          console.log(a, b);
           const nameA = a.lastName.toLowerCase();
           const nameB = b.lastName.toLowerCase();
           // sort string ascending

@@ -73,8 +73,7 @@
   }
 
   @media all and (-ms-high-contrast:none) and (min-width: 760px) {
-    
-
+    justify-content: center;
     &--grid {
       justify-content: space-between;
       h1 {
