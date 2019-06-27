@@ -4,6 +4,21 @@
     grid-template-columns: 60px auto;
     grid-column-gap: 30px;
     align-items: center;
+    cursor: pointer;
+
+    &:hover {
+      .c-account__name,
+      .c-account__email {
+        color: #ec5959;
+      }
+
+      .c-account__toggle-icon {
+        &:before,
+        &:after {
+          background: #ec5959;
+        }
+      }
+    }
   }
 
   &__photo {
@@ -16,7 +31,6 @@
   }
 
   &__main {
-    border-bottom: solid 1px #979797;
     height: 100%;
     display: flex;
     justify-content: center;
@@ -41,7 +55,7 @@
     }
   }
 
-  &__toggle {
+  &__toggle-icon {
     position: absolute;
     right: 0;
     top: 0;
@@ -76,12 +90,53 @@
         background: #ec5959;
       }
     }
+
+    &.is-active {
+      &:before {
+        transform: rotate(90deg);
+      }
+    }
+  }
+
+  &__details {
+    margin-left: 90px;
+    font-size: 13px;
+    border-bottom: solid 1px #979797;
+    max-height: 0;
+    overflow: hidden;
+    transition: .3s ease-in;
+
+    &:last-child & {
+      border-bottom: none;
+    }
+
+    dt,
+    dd {
+      display: inline;
+      line-height: 23px;
+    }
+
+    dt {
+      font-weight: 800;
+    }
+
+    dd {
+      &:after {
+        content: '\A';
+        white-space: pre;
+      }
+    }
+
+    &.is-open {
+      max-height: 300px;
+      padding-bottom: 12px;
+    }
   }
 
   @media all and (-ms-high-contrast:none) {
     &__header {
       display: flex;
-      height: 99px;
+      height: 100px;
     }
 
     &__photo {

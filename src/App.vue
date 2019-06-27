@@ -155,16 +155,16 @@
                 <div class="c-account-form__field__meta">
                   <div
                     class="c-account-form__field__note"
-                    :class="{error: errors.zipcode.error}"
-                    v-if="errors.zipcode.error === true"
+                    :class="{error: errors.zip.error}"
+                    v-if="errors.zip.error === true"
                   >
                     Required Field
                   </div>
 
                   <div
                     class="c-account-form__field__note"
-                    :class="{error: errors.zipcode.error}"
-                    v-if="errors.zipcode.error === 'invalid'"
+                    :class="{error: errors.zip.error}"
+                    v-if="errors.zip.error === 'invalid'"
                   >
                     Zipcode doesn't match requirements
                   </div>
@@ -172,16 +172,16 @@
 
                 <label
                   class="c-account-form__label c-account-form__label--positioned"
-                  :class="{error: errors.zipcode.error}"
-                  for="zipcode"
+                  :class="{error: errors.zip.error}"
+                  for="zip"
                 >Zipcode<sup>*</sup></label>
                 <input
                   class="c-account-form__text-input"
-                  :class="{error: errors.zipcode.error}"
+                  :class="{error: errors.zip.error}"
                   type="number"
-                  name="zipcode"
-                  id="zipcode"
-                  v-model="account.zipcode"
+                  name="zip"
+                  id="zip"
+                  v-model="account.zip"
                   required
                 />
               </div>
@@ -420,10 +420,13 @@
               >
                 <li
                   class="c-account"
-                  v-for="account in alphabeticalAccounts"
+                  v-for="(account, index) in alphabeticalAccounts"
                   :key="account.email"
                 >
-                  <div class="c-account__header">
+                  <div
+                    class="c-account__header"
+                    @click="toggleAccountDetails(index)"
+                  >
                     <div
                       class="c-account__photo"
                       :style="`background-image: url(${ account.profileImage })`"
@@ -433,13 +436,35 @@
                       <div class="c-account__name">{{ account.name }}</div>
                       <div>
                         <a
+                          @click.stop
                           :href="`mailto:${account.email}`"
                           class="c-account__email"
                         >{{ account.email }}</a>
                       </div>
 
-                      <div class="c-account__toggle"/>
+                      <div
+                        class="c-account__toggle-icon"
+                        :data-id="`account-toggle-icon-${index}`"
+                      />
                     </div>
+                  </div>
+                  <div class="c-account__details" :data-id="`account-details-${index}`">
+                    <dl>
+                      <dt>Age: </dt>
+                      <dd>{{ getAge(account.birthday) }}</dd>
+
+                      <dt>Birthday: </dt>
+                      <dd>{{ convertBirthday(account.birthday) }}</dd>
+
+                      <dt>Zipcode: </dt>
+                      <dd>{{ account.zip }}</dd>
+
+                      <dt>Gender: </dt>
+                      <dd>{{ convertGenderValue(account.gender) }}</dd>
+
+                      <dt>Newsletter: </dt>
+                      <dd>{{ checkNewsletterSubscription(account.newsletter) }}</dd>
+                    </dl>
                   </div>
                 </li>
               </ul>
@@ -468,7 +493,7 @@ export default {
         name: '',
         email: '',
         birthday: '',
-        zipcode: '',
+        zip: '',
         password: '',
         confirmPassword: '',
         gender: '',
@@ -489,7 +514,7 @@ export default {
           required: true,
           error: false,
         },
-        zipcode: {
+        zip: {
           required: true,
           error: false,
         },
@@ -571,7 +596,6 @@ export default {
     submitForm() {
       // check to make sure all requirements are met
       const invalidForm = this.formValidation();
-      console.log(invalidForm);
       if (!invalidForm) {
         // all required fields are present
         // add account user to accounts list
@@ -605,18 +629,18 @@ export default {
       if (!this.errors.birthday.error) {
       // check to see if age is under 18.
       // set the error object to true if under 18
-        if (this.isUnderEighteen()) {
+        if (this.getAge() < 18) {
           this.errors.birthday.error = 'underage';
           formContainsError = true;
         }
       }
 
       // if there is already a zipcode error, don't need these checks
-      if (!this.errors.zipcode.error) {
+      if (!this.errors.zip.error) {
       // check to see if the entered zipcode matches any in the valid zipcodes array
       // set error object to true if not found
-        if (this.validZipCodes.indexOf(parseInt(this.account.zipcode, 10)) < 0) {
-          this.errors.zipcode.error = 'invalid';
+        if (this.validZipCodes.indexOf(parseInt(this.account.zip, 10)) < 0) {
+          this.errors.zip.error = 'invalid';
           formContainsError = true;
         }
       }
@@ -648,7 +672,6 @@ export default {
 
       // if there is already a confirmPassword error, don't need these checks
       if (!this.errors.confirmPassword.error) {
-        console.log('checking');
         if (this.account.confirmPassword !== this.account.password) {
           this.errors.confirmPassword.error = 'mismatch';
           formContainsError = true;
@@ -663,15 +686,15 @@ export default {
 
       return formContainsError;
     },
-    isUnderEighteen() {
+    getAge(birthday) {
       const today = new Date();
-      const birthDate = new Date(this.account.birthday);
+      const birthDate = new Date(birthday);
       let age = today.getFullYear() - birthDate.getFullYear();
       const m = today.getMonth() - birthDate.getMonth();
       if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
         age -= 1;
       }
-      return age < 18;
+      return age;
     },
     validateEmail() {
       // eslint-disable-next-line no-useless-escape
@@ -680,6 +703,42 @@ export default {
     },
     validatePassword() {
       return /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/.test(this.account.password);
+    },
+    toggleAccountDetails(index) {
+      // toggle the is-open class on the details div
+      // this will hide or show that div
+      document.querySelector(`[data-id="account-details-${index}"`).classList.toggle('is-open');
+
+      // do same class toggling for the toggle icon
+      document.querySelector(`[data-id="account-toggle-icon-${index}"`).classList.toggle('is-active');
+    },
+    checkNewsletterSubscription(newsletter) {
+      if (newsletter === '' || newsletter === false) {
+        return 'No';
+      }
+      return 'Yes';
+    },
+    convertGenderValue(gender) {
+      let genderDisplay = gender;
+
+      switch (gender) {
+        case 'M':
+          genderDisplay = 'Male';
+          break;
+        case 'F':
+          genderDisplay = 'Female';
+          break;
+        default:
+          break;
+      }
+
+      return genderDisplay;
+    },
+    convertBirthday(birthday) {
+      const date = new Date(birthday);
+      const month = date.toLocaleString('en-us', { month: 'long' });
+      const year = date.toLocaleString('en-us', { year: 'numeric' });
+      return `${month} ${date.getDate()}, ${year}`;
     },
   },
   computed: {
